@@ -1,2 +1,6 @@
 object :@restaurant
-attributes :name
+attributes :name, :initialized
+
+node :errors do |restaurant|
+  restaurant.errors.messages
+end
