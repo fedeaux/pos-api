@@ -1,6 +1,5 @@
 class Table < ApplicationRecord
-  singleton_class.send :alias_method, :ensure_amount_create, :create
-  singleton_class.send :private, :ensure_amount_create
+  singleton_class.send :private, :create
 
   # Use strings instead of symbols since active record will store them as strings
   AVAILABLE = 'available'
@@ -21,14 +20,10 @@ class Table < ApplicationRecord
     self.state and [AVAILABLE, DISABLED, OCCUPIED].include? self.state
   end
 
-  def self.create
-    raise 'Table.create is disabled, use Table.ensure_amount instead'
-  end
-
   def self.ensure_amount(n)
     if Table.count < n
       (n - Table.count).times do
-        ensure_amount_create
+        create
       end
     end
   end
