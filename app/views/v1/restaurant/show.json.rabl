@@ -1,0 +1,2 @@
+object :@restaurant
+attributes :name
