@@ -24,9 +24,9 @@ RSpec.describe "Exercises", type: :request do
       end
     end
 
-    describe "POST /v1/restaurant" do
+    describe "PUT /v1/restaurant" do
       it 'updates the restaurant and returns its info if given valid data' do
-        post v1_restaurant_path, headers: @request_headers, params: { restaurant: { name: "Adrian's" }}
+        put v1_restaurant_path, headers: @request_headers, params: { restaurant: { name: "Adrian's" }}
 
         json_response = JSON.parse(response.body)
 
@@ -37,7 +37,7 @@ RSpec.describe "Exercises", type: :request do
       end
 
       it 'rejects the update returns its previous info with error messages if given invalid' do
-        post v1_restaurant_path, headers: @request_headers, params: { restaurant: { name: nil }}
+        put v1_restaurant_path, headers: @request_headers, params: { restaurant: { name: nil }}
 
         json_response = JSON.parse(response.body)
 

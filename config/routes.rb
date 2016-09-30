@@ -4,6 +4,6 @@ Rails.application.routes.draw do
 
   namespace 'v1' do
     get 'restaurant' => 'restaurant#show'
-    post 'restaurant' => 'restaurant#update'
+    put 'restaurant' => 'restaurant#update'
   end
 end
