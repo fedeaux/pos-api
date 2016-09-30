@@ -13,9 +13,15 @@ class V1::TablesController < ApplicationController
     render :show
   end
 
+  def create
+    Table.ensure_amount Table.count + 1
+    @table = Table.last
+    render :show
+  end
+
   private
   def table_params
-    params.require(:table).permit(:name)
+    params.require(:table).permit(:state)
   end
 
   def set_table

@@ -22,5 +22,13 @@ RSpec.describe "Tables requests", type: :request do
         expect(json_response['tables'].count).to eq 5
       end
     end
+
+    describe "POST /v1/tables" do
+      it 'creates a new available table' do
+        post v1_tables_path, headers: @request_headers
+        json_response = JSON.parse(response.body)
+        expect(json_response).to have_key 'table'
+      end
+    end
   end
 end
