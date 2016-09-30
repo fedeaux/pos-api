@@ -17,6 +17,7 @@ gem 'devise'
 gem 'devise_token_auth'
 gem 'omniauth'
 gem 'rack-cors', :require => 'rack/cors'
+gem "acts_as_singleton"
 
 # REST
 gem 'rabl-rails'
