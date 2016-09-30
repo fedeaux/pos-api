@@ -5,5 +5,6 @@ Rails.application.routes.draw do
   namespace 'v1' do
     get 'restaurant' => 'restaurant#show'
     put 'restaurant' => 'restaurant#update'
+    resources :tables
   end
 end
