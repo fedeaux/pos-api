@@ -6,5 +6,6 @@ Rails.application.routes.draw do
     get 'restaurant' => 'restaurant#show'
     put 'restaurant' => 'restaurant#update'
     resources :tables
+    resources :products
   end
 end
