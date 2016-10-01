@@ -74,6 +74,10 @@ class V1::TableConsumptionController < ApplicationController
     @product = Product.find params[:consumption][:product_id]
   end
 
+  def table_consumption_params
+    params.require(:consumption).permit(:state, :waiter_id)
+  end
+
   def payment_params
     params.require(:consumption).require(:payment).permit(:value, :observations)
   end
