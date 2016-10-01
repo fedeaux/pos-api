@@ -10,10 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161001140244) do
+ActiveRecord::Schema.define(version: 20161001144800) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "consumptions", force: :cascade do |t|
+    t.string   "state"
+    t.decimal  "total_price",    precision: 10, scale: 2, default: "0.0"
+    t.decimal  "payed_value",    precision: 10, scale: 2, default: "0.0"
+    t.decimal  "discount_value", precision: 10, scale: 2, default: "0.0"
+    t.decimal  "tip_value",      precision: 10, scale: 2, default: "0.0"
+    t.integer  "table_id"
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
+    t.index ["table_id"], name: "index_consumptions_on_table_id", using: :btree
+  end
 
   create_table "product_categories", force: :cascade do |t|
     t.string   "name"
@@ -74,4 +86,5 @@ ActiveRecord::Schema.define(version: 20161001140244) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "consumptions", "tables"
 end
