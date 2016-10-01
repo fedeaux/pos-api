@@ -5,7 +5,9 @@ class Consumption < ApplicationRecord
 
   has_many :product_consumptions, dependent: :destroy
   has_many :products, through: :product_consumptions
+  has_many :payments
 
+  after_initialize :ensure_valid_state
   before_save :update_digest_values
 
   # Use strings instead of symbols since active record will store them as strings
@@ -13,7 +15,6 @@ class Consumption < ApplicationRecord
   PAYED = 'payed'
   CANCELED = 'canceled'
 
-  after_initialize :ensure_valid_state
   def ensure_valid_state
     self.state = Consumption::OPEN unless has_valid_state?
   end
@@ -31,8 +32,31 @@ class Consumption < ApplicationRecord
     products.any?
   end
 
+  def payed?
+    self.state == PAYED
+  end
+
+  def open?
+    self.state == OPEN
+  end
+
+  def canceled?
+    self.state == CANCELED
+  end
+
   def update_digest_values
     self.total_price = products.reduce(0) { |sum, p| sum + p.price }
+    self.payed_value = payments.reduce(0) { |sum, p| sum + p.value }
+
+    if self.payed? and self.state_was != CANCELED
+      if self.tip_value.nil? or self.tip_value == 0.0
+        self.tip_value = [0, payed_value - total_price].max
+      end
+
+      if self.discount_value.nil? or self.discount_value == 0.0
+        self.discount_value = [0, total_price - payed_value].max
+      end
+    end
   end
 
   def remove_one_product(product)
