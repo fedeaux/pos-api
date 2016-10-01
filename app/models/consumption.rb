@@ -3,6 +3,9 @@ class Consumption < ApplicationRecord
   validates :state, presence: true
   validates :table, presence: true
 
+  has_many :product_consumptions
+  has_many :products, through: :product_consumptions
+
   # Use strings instead of symbols since active record will store them as strings
   OPEN = 'open'
   PAYED = 'payed'
@@ -20,5 +23,9 @@ class Consumption < ApplicationRecord
 
   def has_valid_state?
     self.state and [ OPEN, PAYED, CANCELED ].include? self.state
+  end
+
+  def has_products?
+    products.any?
   end
 end

@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Consumption, type: :model do
-  describe '#state' do
-    let(:consumption) {
-      Table.ensure_amount(1)
-      Consumption.create table: Table.first
-    }
+  let(:consumption) {
+    Table.ensure_amount(1)
+    Consumption.create table: Table.first
+  }
 
+  describe '#state' do
     it 'is Consumption::OPEN by default' do
       expect(consumption.state).to eq Consumption::OPEN
     end

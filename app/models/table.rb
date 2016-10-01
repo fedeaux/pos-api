@@ -7,6 +7,37 @@ class Table < ApplicationRecord
   OCCUPIED = 'occupied'
 
   after_initialize :ensure_valid_state
+  after_save :create_consumption_if_updating_state_to_occupied
+  after_save :destroy_consumption_if_updating_state_to_available
+
+  validate :can_be_updated_to_available
+
+  has_many :consumptions
+
+  def active_consumption
+    consumptions.where( state: Consumption::OPEN ).first
+  end
+
+  def create_consumption_if_updating_state_to_occupied
+    if self.state == OCCUPIED and self.state_was == AVAILABLE
+      unless active_consumption
+        Consumption.create table: self, state: Consumption::OPEN
+      end
+    end
+  end
+
+  def destroy_consumption_if_updating_state_to_available
+    if self.state == AVAILABLE and self.state_was == OCCUPIED and active_consumption and !active_consumption.has_products?
+      active_consumption.destroy
+    end
+  end
+
+  def can_be_updated_to_available
+    if active_consumption and active_consumption.has_products? and state == AVAILABLE
+      errors.add(:state, "Can't set table state to available with an open consumption")
+    end
+  end
+
   def ensure_valid_state
     self.state = Table::AVAILABLE unless has_valid_state?
   end
