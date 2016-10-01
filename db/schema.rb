@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161001154647) do
+ActiveRecord::Schema.define(version: 20161001221225) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,7 +24,9 @@ ActiveRecord::Schema.define(version: 20161001154647) do
     t.integer  "table_id"
     t.datetime "created_at",                                              null: false
     t.datetime "updated_at",                                              null: false
+    t.integer  "waiter_id"
     t.index ["table_id"], name: "index_consumptions_on_table_id", using: :btree
+    t.index ["waiter_id"], name: "index_consumptions_on_waiter_id", using: :btree
   end
 
   create_table "payments", force: :cascade do |t|
@@ -105,6 +107,7 @@ ActiveRecord::Schema.define(version: 20161001154647) do
   end
 
   add_foreign_key "consumptions", "tables"
+  add_foreign_key "consumptions", "waiters"
   add_foreign_key "payments", "consumptions"
   add_foreign_key "product_consumptions", "consumptions"
   add_foreign_key "product_consumptions", "products"
