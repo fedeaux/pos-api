@@ -8,5 +8,6 @@ Rails.application.routes.draw do
     get 'product_categories' => 'product_categories#index'
     resources :tables
     resources :products
+    resources :waiters
   end
 end
