@@ -13,6 +13,8 @@ Rails.application.routes.draw do
       get 'consumption' => 'table_consumption#index'
       put 'consumption/add_product' => 'table_consumption#add_product'
       put 'consumption/remove_product' => 'table_consumption#remove_product'
+      put 'consumption/add_payment' => 'table_consumption#add_payment'
+      put 'consumption/remove_payment' => 'table_consumption#remove_payment'
     end
   end
 end

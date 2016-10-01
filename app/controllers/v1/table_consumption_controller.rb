@@ -42,6 +42,25 @@ class V1::TableConsumptionController < ApplicationController
     end
   end
 
+  def add_payment
+    if @table_consumption
+      @table_consumption.payments << Payment.create(payment_params)
+      render :show
+    else
+      head 422
+    end
+  end
+
+  def remove_payment
+    if @table_consumption
+      payment = @table_consumption.payments.find params[:consumption][:payment_id]
+      payment.destroy
+      render :show
+    else
+      head 422
+    end
+  end
+
   private
   def set_table_and_consumption
     @table = Table.find params[:table_id]
@@ -50,5 +69,9 @@ class V1::TableConsumptionController < ApplicationController
 
   def set_product
     @product = Product.find params[:consumption][:product_id]
+  end
+
+  def payment_params
+    params.require(:consumption).require(:payment).permit(:value, :observations)
   end
 end
