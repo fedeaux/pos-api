@@ -26,6 +26,7 @@ class V1::TableConsumptionController < ApplicationController
     if @table_consumption
       set_product
       @table_consumption.products << @product
+      @table_consumption.save
       render :show
     else
       head 422
@@ -45,6 +46,7 @@ class V1::TableConsumptionController < ApplicationController
   def add_payment
     if @table_consumption
       @table_consumption.payments << Payment.create(payment_params)
+      @table_consumption.save
       render :show
     else
       head 422
@@ -55,6 +57,7 @@ class V1::TableConsumptionController < ApplicationController
     if @table_consumption
       payment = @table_consumption.payments.find params[:consumption][:payment_id]
       payment.destroy
+      @table_consumption.save
       render :show
     else
       head 422
