@@ -7,6 +7,9 @@ class V1::ReportsController < ApplicationController
       earliest: Consumption.minimum(:created_at),
       latest: Consumption.maximum(:created_at)
     }
+
+    # This smells, I could've made a registration system, but so little time :(
+    @available_reporters = ['Sales', 'Products', 'TipPerWaiter']
   end
 
   def show

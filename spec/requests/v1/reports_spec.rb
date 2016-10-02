@@ -23,9 +23,9 @@ RSpec.describe "Reports requests", type: :request do
         json_response = JSON.parse(response.body)
 
         expect(json_response['reports'].count).to eq 2
-
         expect(json_response['available_period']).to have_key 'earliest'
         expect(json_response['available_period']).to have_key 'latest'
+        expect(json_response['available_reporters'].sort).to eq ['Products', 'Sales', 'TipPerWaiter']
       end
     end
 
