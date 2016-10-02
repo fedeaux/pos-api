@@ -18,6 +18,8 @@ Rails.application.routes.draw do
       put 'consumption' => 'table_consumption#update'
     end
 
-    resources :reports
+    resources :reports do
+      get 'download_as_pdf' => 'reports#download_as_pdf', on: :member
+    end
   end
 end

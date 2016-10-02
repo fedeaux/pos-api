@@ -1,5 +1,8 @@
 module Reporters
   class Products < Base
+    attr_reader :popular_products
+    attr_reader :total_sales
+
     def initialize
       @product_count = {}
     end

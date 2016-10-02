@@ -1,5 +1,7 @@
 module Reporters
   class TipPerWaiter < Base
+    attr_reader :tip_per_waiter
+
     def initialize
       @tip_per_waiter = { unassigned: { value: 0, waiter: { name: 'Unassigned to anyone' }}}
     end

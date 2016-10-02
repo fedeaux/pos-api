@@ -12,6 +12,8 @@ gem 'seedbank'
 gem 'string-urlize'
 gem 'uglifier', '>= 1.3.0'
 gem 'oj'
+gem 'wkhtmltopdf-binary'
+gem 'wicked_pdf'
 
 # Modeling
 gem 'devise'
@@ -22,6 +24,8 @@ gem "acts_as_singleton"
 
 # REST
 gem 'rabl-rails'
+gem 'haml-rails'
+gem 'sass-rails'
 
 # Console
 gem "awesome_print"

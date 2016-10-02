@@ -1,5 +1,11 @@
 module Reporters
   class Sales < Base
+    attr_reader :sold_products_total_value
+    attr_reader :total_income
+    attr_reader :total_in_tips
+    attr_reader :house_income
+    attr_reader :discounts
+
     def initialize
       @sold_products_total_value = 0
       @total_income = 0

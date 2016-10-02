@@ -1,0 +1,8 @@
+.report
+  %h2 Products
+  = "A total of #{ result.total_sales } products were sold."
+
+  .field
+    %label Popular Products
+    - result.popular_products.each do |product|
+      .line= "#{product[:product][:name]} with #{product[:amount]} sales."
