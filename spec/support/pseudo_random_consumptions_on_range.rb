@@ -1,13 +1,22 @@
 module FactoryGirl
   module Syntax
     module Methods
-      def create_pseudo_random_consumptions_on_range(start, finish)
+      def create_pseudo_random_consumptions_on_range(start, finish, force_products: false, force_tables: false)
         if Product.count == 0
-          raise "It doesn't make sense to create consumptions without product. Create some products before calling this method"
+          if force_products
+            create :product_food
+            create :product_drink
+          else
+            raise "It doesn't make sense to create consumptions without products. Create some products before calling this method or call with force_products: true"
+          end
         end
 
         if Table.count == 0
-          raise "It doesn't make sense to create consumptions without tables. Ensure some tables before calling this method"
+          if force_tables
+            Table.ensure_amount 3
+          else
+            raise "It doesn't make sense to create consumptions without tables. Ensure some tables before calling this method or call with force_tables: true"
+          end
         end
 
         current_time = start.utc.change({ hour: 12, min: 0, sec: 0 })
