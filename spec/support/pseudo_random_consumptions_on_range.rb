@@ -36,9 +36,13 @@ module FactoryGirl
 
         # Generate payments based on type of payment
         # Values greater than 1 represent payment with tip
-        payed_values = [1.1, 1.2, 1.05, 1, 1, 0.9]
+        payed_values = [1.2, 1.1, 1.05, 1, 1, 0.9]
 
-        # A general access index
+        # Intercalate between waiters and "no waiter"
+        waiters = (Waiter.all.to_a * 2).flatten
+        waiters.push nil
+
+        # A general access index. It will be used to pseudo randomly create consumption data
         index = 0
 
         while current_time < final_time
@@ -46,7 +50,7 @@ module FactoryGirl
             (1..3).each do |i|
               table.update state: Table::OCCUPIED
               consumption = table.active_consumption
-              consumption.update created_at: (current_time + i.hours)
+              consumption.update created_at: (current_time + i.hours), waiter: waiters[ index % waiters.length ]
 
               # Products
               number_of_products[index % number_of_products.length].times do
@@ -57,17 +61,18 @@ module FactoryGirl
               consumption.save
 
               # Payments
-              n = ((index % 3) + 1)
+              number_of_payments = ((index % 3) + 1)
               total_payed = consumption.total_price * payed_values[index % payed_values.length]
-              value_per_payment = total_payed / n
+              value_per_payment = total_payed / number_of_payments
 
-              n.times do
+              number_of_payments.times do
                 consumption.payments << Payment.create(value: value_per_payment, created_at: (current_time + (1 + i).hours))
               end
 
               consumption.update state: Consumption::PAYED
               table.update state: Table::AVAILABLE
               current_time += 1.hour
+              index += 1
             end
 
             current_time = current_time.change({ hour: 12, min: 0, sec: 0 })
