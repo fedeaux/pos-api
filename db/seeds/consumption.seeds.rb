@@ -1,60 +1,7 @@
-after(:tables) do
-  # This seed generates almost 2000 consumptions
+require 'factory_girl_rails'
+require_relative '../../spec/support/pseudo_random_consumptions_on_range'
 
-  current_time = 2.months.ago.utc.change({ hour: 12, min: 0, sec: 0 })
-  final_time = Time.now.end_of_day.utc
-
-  # Create a products array with different number of occurrences so consumptions
-  # are not equally distributed
-
-  # Using shuffle with a seeded generator leads to the same result everytime
-  products = Product.order('name').all.each_with_index.map { |product, index|
-    [product] * (index + 1)
-  }.flatten.shuffle(random: Random.new(1))
-
-  index = 0
-
-  number_of_products = [2, 3, 4, 5]
-
-  # Generate payments based on type of payment
-  # Values greater than 1 represent payment with tip
-  payed_values = [1.1, 1.2, 1.05, 1, 1, 0.9]
-
-  # A general access index
-  index = 0
-
-  while current_time < final_time
-    Table.all.each do |table|
-      (1..3).each do |i|
-        table.update state: Table::OCCUPIED
-        consumption = table.active_consumption
-        consumption.update created_at: (current_time + i.hours)
-
-        # Products
-        number_of_products[index % number_of_products.length].times do
-          consumption.products << products[index % products.length]
-          index += 1
-        end
-
-        consumption.save
-
-        # Payments
-        n = ((index % 3) + 1)
-        total_payed = consumption.total_price * payed_values[index % payed_values.length]
-        value_per_payment = total_payed / n
-
-        n.times do
-          consumption.payments << Payment.create(value: value_per_payment, created_at: (current_time + (1 + i).hours))
-        end
-
-        consumption.update state: Consumption::PAYED
-        table.update state: Table::AVAILABLE
-        current_time += 1.hour
-      end
-
-      current_time = current_time.change({ hour: 12, min: 0, sec: 0 })
-    end
-
-    current_time += 2.day
-  end
+after(:products, :tables) do
+  # This seed generates around 1000 consumptions
+  FactoryGirl.create_pseudo_random_consumptions_on_range(2.months.ago, 1.hour.ago)
 end
