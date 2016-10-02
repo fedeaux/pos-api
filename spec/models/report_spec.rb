@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.describe Report, type: :model do
   let(:report_attributes) {
     {
-      start: 3.weeks.ago, finish: 1.week.ago, reporters: [
-                                                'Sales',
-                                                'TipPerWaiter',
-                                                'Products'
-                                               ]
+      start: 1.week.ago, finish: 1.day.ago, reporters: [
+                                              'Sales',
+                                              'TipPerWaiter',
+                                              'Products'
+                                             ]
     }
   }
 
@@ -44,19 +44,27 @@ RSpec.describe Report, type: :model do
     end
   end
 
-  describe '#apply' do
-    it 'default reporters to an empty array' do
-      report = Report.new report_attributes.except(:reporters)
-      expect(report.reporters).to eq []
-    end
+  describe 'consumptions' do
+    let(:report) { Report.create report_attributes }
 
-    it 'can be set as strings or classes' do
-      report = Report.new report_attributes.except(:reporters)
-      report.reporters = ['Sales']
-      expect(report.reporters.first).to eq Reporters::Sales
+    before(:each) {
+      create :product_food
+      create :product_food
+      create :product_drink
+      Table.ensure_amount 1
+    }
 
-      report.reporters += [ Reporters::Products ]
-      expect(report.reporters).to include Reporters::Products
+    it 'returns the consumptions on the period' do
+      expect(report.consumptions.count).to eq 0
+
+      create_pseudo_random_consumptions_on_range report_attributes[:start], report_attributes[:finish]
+
+      on_range_consumption_count = Consumption.count
+      expect(report.consumptions.count).to eq on_range_consumption_count
+
+      # Create some consumptions out of range
+      create_pseudo_random_consumptions_on_range (report_attributes[:start] - 2.weeks), (report_attributes[:start] - 1.week)
+      expect(report.consumptions.count).to eq on_range_consumption_count
     end
   end
 end

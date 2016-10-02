@@ -33,4 +33,8 @@ class Report < ApplicationRecord
       reporter_name.constantize
     }
   end
+
+  def consumptions
+    Consumption.where('created_at >= :start AND created_at <= :finish', start: start.beginning_of_day, finish: finish.end_of_day)
+  end
 end
