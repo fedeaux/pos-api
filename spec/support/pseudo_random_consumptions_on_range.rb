@@ -36,7 +36,7 @@ module FactoryGirl
 
         # Generate payments based on type of payment
         # Values greater than 1 represent payment with tip
-        payed_values = [1.2, 1.1, 1.05, 1, 1, 0.9]
+        payed_values = [1.2, 1.1, 1.05, 1, 1, 1, 1, 0.95, 0.9, 0.85]
 
         # Intercalate between waiters and "no waiter"
         waiters = (Waiter.all.to_a * 2).flatten
