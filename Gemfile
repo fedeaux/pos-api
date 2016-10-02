@@ -11,6 +11,7 @@ gem 'listen', '~> 3.0.5'
 gem 'seedbank'
 gem 'string-urlize'
 gem 'uglifier', '>= 1.3.0'
+gem 'oj'
 
 # Modeling
 gem 'devise'
