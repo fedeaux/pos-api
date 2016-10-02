@@ -17,5 +17,9 @@ Rails.application.routes.draw do
       put 'consumption/remove_payment' => 'table_consumption#remove_payment'
       put 'consumption' => 'table_consumption#update'
     end
+
+    resources :reports do
+      get 'download_as_pdf' => 'reports#download_as_pdf', on: :member
+    end
   end
 end
