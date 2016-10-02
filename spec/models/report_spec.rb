@@ -1,15 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Report, type: :model do
-  let(:report_attributes) {
-    {
-      start: 1.week.ago, finish: 1.day.ago, reporters: [
-                                              'Sales',
-                                              'TipPerWaiter',
-                                              'Products'
-                                             ]
-    }
-  }
+  let(:report_attributes) { attributes_for :report  }
+
+  describe 'factories' do
+    it 'has a valid factory' do
+      expect(create :report).to be_valid
+    end
+  end
 
   describe 'validations' do
     it 'is invalid without reporters' do
