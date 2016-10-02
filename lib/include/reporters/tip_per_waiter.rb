@@ -1,14 +1,21 @@
 module Reporters
   class TipPerWaiter < Base
     def initialize
-      @tip_per_waiter = {}
+      @tip_per_waiter = { unassigned: { value: 0, waiter: { name: 'Unassigned to anyone' }}}
     end
 
     def include(consumption)
-      if @tip_per_waiter[consumption.waiter_id]
-        @tip_per_waiter[consumption.waiter_id] += consumption.tip_value
+      key = consumption.waiter_id ? consumption.waiter_id : :unassigned
+
+      if @tip_per_waiter[key]
+        @tip_per_waiter[key][:value] += consumption.tip_value
       else
-        @tip_per_waiter[consumption.waiter_id] = 0
+        @tip_per_waiter[key] = {
+          value: consumption.tip_value,
+          waiter: {
+            name: consumption.waiter.name
+          }
+        }
       end
     end
   end

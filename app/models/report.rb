@@ -35,17 +35,19 @@ class Report < ApplicationRecord
   end
 
   def apply
-    reporter_results = reporters.map { |klass| klass.new }
+    reporter_results = reporters.map { |klass| [klass.name, klass.new] }.to_h
 
     consumptions.each do |consumption|
-      reporter_results.each do |reporter_result|
+      reporter_results.values.each do |reporter_result|
         reporter_result.include consumption
       end
     end
 
-    reporter_results.each do |reporter_result|
+    reporter_results.values.each do |reporter_result|
       reporter_result.finish
     end
+
+    reporter_results
   end
 
   def consumptions

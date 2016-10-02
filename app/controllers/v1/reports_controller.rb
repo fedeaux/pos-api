@@ -13,6 +13,7 @@ class V1::ReportsController < ApplicationController
   end
 
   def show
+    @results = @report.apply
   end
 
   def update
