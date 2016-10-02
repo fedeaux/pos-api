@@ -34,6 +34,20 @@ class Report < ApplicationRecord
     }
   end
 
+  def apply
+    reporter_results = reporters.map { |klass| klass.new }
+
+    consumptions.each do |consumption|
+      reporter_results.each do |reporter_result|
+        reporter_result.include consumption
+      end
+    end
+
+    reporter_results.each do |reporter_result|
+      reporter_result.finish
+    end
+  end
+
   def consumptions
     Consumption.where('created_at >= :start AND created_at <= :finish', start: start.beginning_of_day, finish: finish.end_of_day)
   end
