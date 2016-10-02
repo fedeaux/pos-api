@@ -5,7 +5,7 @@ class Consumption < ApplicationRecord
 
   has_many :product_consumptions, dependent: :destroy
   has_many :products, through: :product_consumptions
-  has_many :payments
+  has_many :payments, dependent: :destroy
   belongs_to :waiter
 
   after_initialize :ensure_valid_state
