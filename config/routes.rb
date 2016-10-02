@@ -17,5 +17,7 @@ Rails.application.routes.draw do
       put 'consumption/remove_payment' => 'table_consumption#remove_payment'
       put 'consumption' => 'table_consumption#update'
     end
+
+    resources :reports
   end
 end
