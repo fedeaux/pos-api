@@ -1,0 +1,22 @@
+.report
+  %h2 Sales
+
+  .field
+    %label Products total value
+    = number_to_currency result.sold_products_total_value
+
+  .field
+    %label Total in discount
+    = number_to_currency result.discounts
+
+  .field
+    %label Total income
+    = number_to_currency result.total_income
+
+  .field
+    %label Total in tips
+    = number_to_currency result.total_in_tips
+
+  .field
+    %label House income
+    = number_to_currency result.house_income

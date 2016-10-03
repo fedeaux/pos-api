@@ -16,6 +16,11 @@ module FactoryGirl
       def create_or_find_by(model, factory, field)
         model.find_by(field => attributes_for(factory)[field]) || create(factory)
       end
+
+      def get_table(index = 0)
+        Table.ensure_amount(index + 1)
+        Table.last
+      end
     end
   end
 end

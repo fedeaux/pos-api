@@ -8,6 +8,8 @@ Bundler.require(*Rails.groups)
 
 module ApiPos
   class Application < Rails::Application
+    config.autoload_paths += Dir["#{Rails.root}/lib/include/**/"]
+
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'

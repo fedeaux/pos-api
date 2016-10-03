@@ -1,0 +1,6 @@
+.report
+  %h2 Tip per Waiter
+
+  - result.tip_per_waiter.each do |waiter_id, info|
+    %label= info[:waiter][:name]
+    = number_to_currency info[:value]

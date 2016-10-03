@@ -1,0 +1,34 @@
+- date_format = '%b %d, %Y'
+.report
+  %h1 POSTaurant report
+
+  .field
+    %label Created at
+    = @report.created_at.strftime(date_format)
+
+  .field
+    %label Updated At
+    = @report.updated_at.strftime(date_format)
+
+  .field
+    %label Start
+    = @report.start.strftime(date_format)
+
+  .field
+    %label Finish
+    = @report.finish.strftime(date_format)
+
+- @results.each do |reporter_name, result|
+  = render 'v1/reports/as_pdf/'+reporter_name.split('::').last.underscore, result: result
+
+:sass
+  .report
+    border-bottom: thin black solid
+    page-break-inside: avoid
+
+  label
+    display: block
+    font-weight: bold
+
+  .field
+    margin: 0.5em
