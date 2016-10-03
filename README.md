@@ -1,7 +1,7 @@
 # Point of Service APP
 
-[api](https://github.com/fedeaux/pos-api)
-[webapp](https://github.com/fedeaux/pos-webapp)
+* [api](https://github.com/fedeaux/pos-api)
+* [webapp](https://github.com/fedeaux/pos-webapp)
 
 ## Running the API Locally
 
