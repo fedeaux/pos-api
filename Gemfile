@@ -14,6 +14,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'oj'
 gem 'wkhtmltopdf-binary'
 gem 'wicked_pdf'
+gem 'simplecov'
 
 # Modeling
 gem 'devise'
